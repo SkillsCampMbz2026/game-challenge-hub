@@ -1,7 +1,7 @@
 # 🎮 Game Challenge Hub
 
-A responsive, dependency-free collection of browser mini-game challenges. The
-first challenge is a full-featured **Tower of Hanoi** puzzle.
+A responsive, dependency-free collection of browser mini-game challenges,
+currently featuring **Tower of Hanoi** and **Lights Out**.
 
 **▶ Live site:** https://skillscampmbz2026.github.io/game-challenge-hub/
 
@@ -24,15 +24,38 @@ Features:
   name, disk count, moves, and time; ranked by fewest moves then fastest time.
 - Fully **responsive** and keyboard-accessible.
 
+## Lights Out
+
+Turn off **every** light on a 5×5 grid. Clicking a light toggles it and its four
+orthogonal neighbours (up/down/left/right).
+
+Features:
+
+- **5×5 grid** of clickable lights with a satisfying glow.
+- **Randomized but always-solvable** boards — each is scrambled from the solved
+  state, so a solution is guaranteed to exist.
+- **Difficulty options** (Easy → Expert) that control how far the board is
+  scrambled, rejection-sampled to a target difficulty band.
+- **Move counter**, live **timer**, and a live **lights-on** count.
+- **Minimum-moves display** computed exactly with a **GF(2) Gaussian-elimination
+  solver** (the true optimal, found over the puzzle's solution space).
+- **Automatic victory detection**, **New puzzle** / **Restart**, and an
+  **Auto-solve** demo that plays the optimal solution.
+- **Local leaderboard** (`localStorage`) — saves player name, difficulty, moves,
+  and time; ranked by fewest moves then fastest time.
+
 ## Project structure
 
 ```
 index.html        # Game Challenge Hub menu
 hanoi.html        # Tower of Hanoi game
+lightsout.html    # Lights Out game
 assets/
   style.css       # shared base + hub styles
-  hanoi.css       # game styles
-  hanoi.js        # game logic (no dependencies)
+  hanoi.css       # Tower of Hanoi styles
+  hanoi.js        # Tower of Hanoi logic (no dependencies)
+  lightsout.css   # Lights Out styles
+  lightsout.js    # Lights Out logic + GF(2) solver (no dependencies)
 ```
 
 ## Running locally

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lights Out — Game Challenge Hub</title>
+  <meta name="description" content="Play Lights Out: turn off every light on a 5x5 grid in the fewest moves. Every board is randomized but always solvable." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/lightsout.css" />
+</head>
+<body class="game-page">
+  <header class="game-topbar">
+    <div class="wrap game-topbar__inner">
+      <a class="back-link" href="index.html">← Hub</a>
+      <h1 class="game-title">💡 Lights Out</h1>
+      <button class="btn btn--ghost" id="howToBtn" type="button" aria-expanded="false" aria-controls="instructions">How to play</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Instructions -->
+    <section class="instructions" id="instructions" aria-label="How to play">
+      <h2>How to play</h2>
+      <ul>
+        <li><strong>Goal:</strong> turn <em>every</em> light off.</li>
+        <li><strong>Click a light:</strong> it toggles that light <em>and</em> its neighbours directly above, below, left and right.</li>
+        <li><strong>Always solvable:</strong> every board is randomly scrambled from a solved state, so a solution always exists.</li>
+        <li><strong>Challenge:</strong> clear the board in as few moves as possible. The optimal count is shown as <em>Min moves</em>.</li>
+      </ul>
+    </section>
+
+    <!-- Controls -->
+    <section class="controls" aria-label="Game controls">
+      <div class="control">
+        <label for="diffSelect">Difficulty</label>
+        <select id="diffSelect">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+      <div class="control control--buttons">
+        <button class="btn" id="newBtn" type="button">🎲 New puzzle</button>
+        <button class="btn btn--ghost" id="restartBtn" type="button">↻ Restart</button>
+        <button class="btn btn--ghost" id="solveBtn" type="button">▶ Auto-solve</button>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats" aria-label="Game stats" aria-live="polite">
+      <div class="stat"><span class="stat__label">Moves</span><span class="stat__value" id="moveCount">0</span></div>
+      <div class="stat"><span class="stat__label">Min moves</span><span class="stat__value" id="minMoves">0</span></div>
+      <div class="stat"><span class="stat__label">Time</span><span class="stat__value" id="timer">00:00</span></div>
+      <div class="stat"><span class="stat__label">Lights on</span><span class="stat__value" id="litStat">0</span></div>
+    </section>
+
+    <!-- Board -->
+    <section class="board-wrap" aria-label="Game board">
+      <div class="lights-grid" id="grid" role="grid" aria-label="Lights Out 5 by 5 grid"></div>
+    </section>
+    <p class="hint" id="hint">Click any light to toggle it and its neighbours.</p>
+
+    <!-- Leaderboard -->
+    <section class="leaderboard" aria-label="Leaderboard">
+      <div class="leaderboard__head">
+        <h2>🏆 Leaderboard</h2>
+        <div class="leaderboard__filter">
+          <label for="lbFilter">Show</label>
+          <select id="lbFilter">
+            <option value="current">Current difficulty</option>
+            <option value="all">All difficulties</option>
+          </select>
+          <button class="btn btn--ghost btn--sm" id="clearLbBtn" type="button">Clear</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="lb-table">
+          <thead>
+            <tr><th>#</th><th>Player</th><th>Difficulty</th><th>Moves</th><th>Time</th><th class="col-opt">Optimal</th></tr>
+          </thead>
+          <tbody id="lbBody"></tbody>
+        </table>
+      </div>
+      <p class="lb-empty" id="lbEmpty">No scores yet — clear a board to get on the leaderboard!</p>
+    </section>
+  </main>
+
+  <!-- Victory modal -->
+  <div class="modal-backdrop" id="victoryModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="victoryTitle">
+      <div class="modal__confetti" aria-hidden="true">🎉</div>
+      <h2 id="victoryTitle">Lights out!</h2>
+      <p class="modal__sub" id="victorySub"></p>
+      <div class="modal__stats" id="modalStats"></div>
+      <div class="modal__save" id="saveRow">
+        <label for="playerName">Save your score</label>
+        <div class="modal__save-row">
+          <input id="playerName" type="text" maxlength="20" placeholder="Your name" autocomplete="off" />
+          <button class="btn" id="saveScoreBtn" type="button">Save</button>
+        </div>
+        <p class="modal__saved" id="savedMsg" hidden>Saved to the leaderboard! ✔</p>
+      </div>
+      <div class="modal__actions">
+        <button class="btn" id="playAgainBtn" type="button">New puzzle</button>
+        <a class="btn btn--ghost" href="index.html">Back to hub</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/lightsout.js"></script>
+</body>
+</html>
