@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Game Challenge Hub</title>
+  <meta name="description" content="A hub of browser mini-game challenges. Featuring the classic Tower of Hanoi puzzle." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="hub">
+  <header class="site-header">
+    <div class="wrap">
+      <h1 class="brand">🎮 Game Challenge Hub</h1>
+      <p class="tagline">Pick a challenge. Beat your best. Climb the leaderboard.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="challenges-title">
+      <h2 id="challenges-title" class="section-title">Challenges</h2>
+      <div class="card-grid" id="cardGrid">
+
+        <a class="game-card" href="hanoi.html">
+          <div class="game-card__art" aria-hidden="true">
+            <div class="mini-hanoi">
+              <span class="mini-peg"></span><span class="mini-peg"></span><span class="mini-peg"></span>
+              <span class="mini-disk d1"></span>
+              <span class="mini-disk d2"></span>
+              <span class="mini-disk d3"></span>
+              <span class="mini-disk d4"></span>
+            </div>
+          </div>
+          <div class="game-card__body">
+            <h3>Tower of Hanoi</h3>
+            <p>Move the full stack of disks to the final tower — never placing a larger disk on a smaller one. Solve it in the fewest moves.</p>
+            <div class="game-card__meta">
+              <span class="tag">Puzzle</span>
+              <span class="tag">Logic</span>
+              <span class="play">Play →</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="game-card game-card--soon" aria-disabled="true">
+          <div class="game-card__art game-card__art--soon" aria-hidden="true">
+            <span class="soon-emoji">🧩</span>
+          </div>
+          <div class="game-card__body">
+            <h3>More coming soon</h3>
+            <p>New challenges will be added to the hub over time. Check back later!</p>
+            <div class="game-card__meta">
+              <span class="tag tag--muted">Coming soon</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Built as a browser challenge collection. Your scores are stored locally in your browser.</p>
+    </div>
+  </footer>
+</body>
+</html>
