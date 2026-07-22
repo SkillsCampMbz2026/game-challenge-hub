@@ -21,7 +21,6 @@
   var diskStatEl = document.getElementById("diskStat");
   var diskSelect = document.getElementById("diskSelect");
   var restartBtn = document.getElementById("restartBtn");
-  var solveBtn = document.getElementById("solveBtn");
   var hintEl = document.getElementById("hint");
   var dragLayer = document.getElementById("dragLayer");
 
@@ -57,7 +56,6 @@
       elapsed: 0,
       timerId: null,
       finished: false,
-      isDemo: false,       // true when auto-solved (not recorded)
       solving: false
     };
   }
@@ -288,9 +286,7 @@
 
   function showVictory() {
     var optimal = state.moves === minMoves(state.numDisks);
-    if (state.isDemo) {
-      victorySub.textContent = "Auto-solved demo — this run is not recorded on the leaderboard.";
-    } else if (optimal) {
+    if (optimal) {
       victorySub.textContent = "Perfect! You solved it in the minimum number of moves. 🌟";
     } else {
       victorySub.textContent = "Well done! Try again to match the optimal " + minMoves(state.numDisks) + " moves.";
@@ -301,17 +297,13 @@
     addModalStat("Moves", state.moves + (optimal ? " ✓" : ""));
     addModalStat("Time", formatTime(state.elapsed));
 
-    if (state.isDemo) {
-      saveRow.hidden = true;
-    } else {
-      saveRow.hidden = false;
-      savedMsg.hidden = true;
-      saveScoreBtn.disabled = false;
-      playerNameInput.disabled = false;
-      playerNameInput.value = localStorage.getItem(NAME_KEY) || "";
-    }
+    saveRow.hidden = false;
+    savedMsg.hidden = true;
+    saveScoreBtn.disabled = false;
+    playerNameInput.disabled = false;
+    playerNameInput.value = localStorage.getItem(NAME_KEY) || "";
     victoryModal.hidden = false;
-    if (!state.isDemo) setTimeout(function () { playerNameInput.focus(); }, 50);
+    setTimeout(function () { playerNameInput.focus(); }, 50);
   }
 
   function addModalStat(label, value) {
@@ -393,7 +385,7 @@
   // ---------- Auto-solve ----------
   function autoSolve() {
     if (state.solving) return;
-    // build move list from current *fresh* board
+    // build move list from a fresh board
     startGame(parseInt(diskSelect.value, 10), true);
     var moves = [];
     (function hanoi(n, from, to, via) {
@@ -404,10 +396,6 @@
     })(state.numDisks, 0, 2, 1);
 
     state.solving = true;
-    state.isDemo = true;
-    solveBtn.disabled = true;
-    restartBtn.disabled = false;
-    setHint("Auto-solving… watch the optimal solution.");
     startTimerIfNeeded();
 
     var i = 0;
@@ -415,7 +403,6 @@
     var iv = setInterval(function () {
       if (i >= moves.length || !state.solving) {
         clearInterval(iv);
-        solveBtn.disabled = false;
         state.solving = false;
         if (state.pegs[2].length === state.numDisks && !state.finished) checkVictory();
         return;
@@ -431,7 +418,6 @@
     if (state) stopTimer();
     state = newState(numDisks);
     state.solving = false;
-    solveBtn.disabled = false;
     timerEl.textContent = "00:00";
     updateStats();
     render();
@@ -461,7 +447,17 @@
     state.solving = false;
     startGame(parseInt(diskSelect.value, 10));
   });
-  solveBtn.addEventListener("click", autoSolve);
+
+  // Hidden shortcut: typing "auto" plays the optimal solution.
+  var keyBuffer = "";
+  document.addEventListener("keydown", function (e) {
+    var ae = document.activeElement;
+    if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.tagName === "SELECT")) return;
+    if (e.key && e.key.length === 1 && /[a-z]/i.test(e.key)) {
+      keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-8);
+      if (keyBuffer.slice(-4) === "auto") { keyBuffer = ""; autoSolve(); }
+    }
+  });
 
   playAgainBtn.addEventListener("click", function () {
     startGame(parseInt(diskSelect.value, 10));

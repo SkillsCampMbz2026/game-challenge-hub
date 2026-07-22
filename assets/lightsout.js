@@ -32,7 +32,6 @@
   var diffSelect = document.getElementById("diffSelect");
   var newBtn = document.getElementById("newBtn");
   var restartBtn = document.getElementById("restartBtn");
-  var solveBtn = document.getElementById("solveBtn");
   var hintEl = document.getElementById("hint");
 
   var victoryModal = document.getElementById("victoryModal");
@@ -273,9 +272,7 @@
 
   function showVictory() {
     var optimal = state.moves === state.minMoves && state.minMoves > 0;
-    if (state.isDemo) {
-      victorySub.textContent = "Auto-solved demo — this run is not recorded on the leaderboard.";
-    } else if (optimal) {
+    if (optimal) {
       victorySub.textContent = "Perfect! You cleared the board in the minimum number of moves. 🌟";
     } else {
       victorySub.textContent = "All lights out! The optimal solution was " + state.minMoves + " moves — can you match it?";
@@ -286,17 +283,13 @@
     addModalStat("Moves", state.moves + (optimal ? " ✓" : ""));
     addModalStat("Time", formatTime(state.elapsed));
 
-    if (state.isDemo) {
-      saveRow.hidden = true;
-    } else {
-      saveRow.hidden = false;
-      savedMsg.hidden = true;
-      saveScoreBtn.disabled = false;
-      playerNameInput.disabled = false;
-      playerNameInput.value = localStorage.getItem(NAME_KEY) || "";
-    }
+    saveRow.hidden = false;
+    savedMsg.hidden = true;
+    saveScoreBtn.disabled = false;
+    playerNameInput.disabled = false;
+    playerNameInput.value = localStorage.getItem(NAME_KEY) || "";
     victoryModal.hidden = false;
-    if (!state.isDemo) setTimeout(function () { playerNameInput.focus(); }, 50);
+    setTimeout(function () { playerNameInput.focus(); }, 50);
   }
 
   function addModalStat(label, value) {
@@ -389,16 +382,12 @@
     for (var i = 0; i < CELLS; i++) if (res.solution[i]) order.push(i);
 
     state.solving = true;
-    state.isDemo = true;
-    solveBtn.disabled = true;
-    setHint("Auto-solving… watch the optimal " + order.length + "-move solution.");
     startTimerIfNeeded();
 
     var step = 0;
     var iv = setInterval(function () {
       if (step >= order.length || !state.solving) {
         clearInterval(iv);
-        solveBtn.disabled = false;
         state.solving = false;
         return;
       }
@@ -421,10 +410,8 @@
       elapsed: 0,
       timerId: null,
       finished: false,
-      isDemo: false,
       solving: false
     };
-    solveBtn.disabled = false;
     timerEl.textContent = "00:00";
     updateStats();
     render();
@@ -441,9 +428,7 @@
     state.startTime = null;
     state.elapsed = 0;
     state.finished = false;
-    state.isDemo = false;
     state.solving = false;
-    solveBtn.disabled = false;
     timerEl.textContent = "00:00";
     updateStats();
     render();
@@ -455,7 +440,17 @@
   diffSelect.addEventListener("change", function () { newPuzzle(diffSelect.value); });
   newBtn.addEventListener("click", function () { newPuzzle(diffSelect.value); });
   restartBtn.addEventListener("click", restart);
-  solveBtn.addEventListener("click", autoSolve);
+
+  // Hidden shortcut: typing "auto" plays the optimal solution.
+  var keyBuffer = "";
+  document.addEventListener("keydown", function (e) {
+    var ae = document.activeElement;
+    if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA" || ae.tagName === "SELECT")) return;
+    if (e.key && e.key.length === 1 && /[a-z]/i.test(e.key)) {
+      keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-8);
+      if (keyBuffer.slice(-4) === "auto") { keyBuffer = ""; autoSolve(); }
+    }
+  });
 
   playAgainBtn.addEventListener("click", function () { newPuzzle(diffSelect.value); });
   saveScoreBtn.addEventListener("click", saveScore);

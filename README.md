@@ -18,8 +18,7 @@ Features:
 - **Difficulty selection** by number of disks (3–8).
 - **Minimum-moves display** (the optimal `2ⁿ − 1`).
 - **Automatic victory detection** with a results dialog.
-- **Auto-solve** button that animates the optimal solution (demo runs are not
-  recorded).
+- A hidden keyboard shortcut can animate the optimal solution.
 - **Local leaderboard** stored in your browser (`localStorage`) — saves player
   name, disk count, moves, and time; ranked by fewest moves then fastest time.
 - Fully **responsive** and keyboard-accessible.
@@ -39,8 +38,8 @@ Features:
 - **Move counter**, live **timer**, and a live **lights-on** count.
 - **Minimum-moves display** computed exactly with a **GF(2) Gaussian-elimination
   solver** (the true optimal, found over the puzzle's solution space).
-- **Automatic victory detection**, **New puzzle** / **Restart**, and an
-  **Auto-solve** demo that plays the optimal solution.
+- **Automatic victory detection**, **New puzzle** / **Restart**, and a hidden
+  keyboard shortcut that plays the optimal solution.
 - **Local leaderboard** (`localStorage`) — saves player name, difficulty, moves,
   and time; ranked by fewest moves then fastest time.
 
