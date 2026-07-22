@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Haunted Halls — Game Challenge Hub</title>
+  <meta name="description" content="A first-person 3D horror maze set in an abandoned school. Find 3 keys and escape while a shadow creature hunts you. Hide in lockers to survive." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👻</text></svg>" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/school.css" />
+</head>
+<body class="game-page">
+  <header class="game-topbar">
+    <div class="wrap game-topbar__inner">
+      <a class="back-link" href="index.html">← Hub</a>
+      <h1 class="game-title">👻 Haunted Halls</h1>
+      <button class="btn btn--ghost" id="howToBtn" type="button" aria-expanded="false" aria-controls="instructions">How to play</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="instructions" id="instructions" aria-label="How to play">
+      <h2>How to play</h2>
+      <ul>
+        <li><strong>Goal:</strong> find all <em>3 keys</em> scattered through the school's halls and classrooms, then reach the <em>exit doors</em> to escape.</li>
+        <li><strong>Look:</strong> click the view to lock the mouse, then move the mouse to look around.</li>
+        <li><strong>Move:</strong> <kbd>W</kbd><kbd>S</kbd> forward/back, <kbd>←</kbd><kbd>→</kbd> turn, <kbd>A</kbd>/<kbd>D</kbd> strafe.</li>
+        <li><strong>It hunts you:</strong> a <em>shadow creature</em> stalks the halls and takes the shortest path to you. The screen darkens red as it nears — and if it reaches you, it <em>lunges</em>.</li>
+        <li><strong>Hide:</strong> stand by a <em>locker</em> and press <kbd>E</kbd> to climb in. It loses your trail and wanders off. Press <kbd>E</kbd> again to come out.</li>
+        <li>On touch devices, use the on-screen control pad and the <kbd>E</kbd> button.</li>
+      </ul>
+    </section>
+
+    <section class="controls" aria-label="Game controls">
+      <div class="control">
+        <label for="diffSelect">Difficulty</label>
+        <select id="diffSelect">
+          <option value="easy">Easy — small school, slow haunt</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard — big school, fast haunt</option>
+        </select>
+      </div>
+      <div class="control control--buttons">
+        <button class="btn" id="newBtn" type="button">🎲 New school</button>
+        <button class="btn btn--ghost" id="restartBtn" type="button">↻ Restart</button>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Game stats" aria-live="polite">
+      <div class="stat"><span class="stat__label">Keys</span><span class="stat__value" id="keysStat">0 / 3</span></div>
+      <div class="stat"><span class="stat__label">Time</span><span class="stat__value" id="timer">00:00</span></div>
+      <div class="stat"><span class="stat__label">Moves</span><span class="stat__value" id="moveCount">0</span></div>
+      <div class="stat"><span class="stat__label">Difficulty</span><span class="stat__value" id="diffStat">Medium</span></div>
+    </section>
+
+    <section class="viewport" id="viewport" aria-label="3D school view">
+      <canvas id="view"></canvas>
+      <div class="locker-overlay" id="lockerOverlay" aria-hidden="true"></div>
+      <div class="vignette" id="vignette" aria-hidden="true"></div>
+      <div class="crosshair" aria-hidden="true"></div>
+      <div class="message" id="message" role="status"></div>
+      <div class="interact-hint" id="interactHint" role="status"></div>
+      <div class="lock-hint" id="lockHint">Click to look around · WASD / arrows to move · E to hide</div>
+      <canvas class="minimap" id="minimap" width="150" height="150" aria-label="Minimap"></canvas>
+
+      <div class="touchpad" aria-hidden="true">
+        <div class="touchpad__row">
+          <button class="tbtn" id="btnStrafeL" type="button">⇦</button>
+          <button class="tbtn" id="btnFwd" type="button">▲</button>
+          <button class="tbtn" id="btnStrafeR" type="button">⇨</button>
+        </div>
+        <div class="touchpad__row">
+          <button class="tbtn" id="btnLeft" type="button">↺</button>
+          <button class="tbtn" id="btnBack" type="button">▼</button>
+          <button class="tbtn" id="btnRight" type="button">↻</button>
+        </div>
+        <div class="touchpad__row">
+          <button class="tbtn tbtn--wide" id="btnHide" type="button">E · Hide</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="leaderboard" aria-label="Leaderboard">
+      <div class="leaderboard__head">
+        <h2>🏆 Fastest Escapes</h2>
+        <div class="leaderboard__filter">
+          <label for="lbFilter">Show</label>
+          <select id="lbFilter">
+            <option value="current">Current difficulty</option>
+            <option value="all">All difficulties</option>
+          </select>
+          <button class="btn btn--ghost btn--sm" id="clearLbBtn" type="button">Clear</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="lb-table">
+          <thead><tr><th>#</th><th>Player</th><th>Difficulty</th><th>Moves</th><th>Time</th></tr></thead>
+          <tbody id="lbBody"></tbody>
+        </table>
+      </div>
+      <p class="lb-empty" id="lbEmpty">No escapes yet — survive the halls to get on the board!</p>
+    </section>
+  </main>
+
+  <!-- End modal -->
+  <div class="modal-backdrop" id="endModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal__confetti" id="modalIcon" aria-hidden="true">🔑</div>
+      <h2 id="modalTitle">You escaped!</h2>
+      <p class="modal__sub" id="modalSub"></p>
+      <div class="modal__stats" id="modalStats"></div>
+      <div class="modal__save" id="saveRow">
+        <label for="playerName">Save your escape</label>
+        <div class="modal__save-row">
+          <input id="playerName" type="text" maxlength="20" placeholder="Your name" autocomplete="off" />
+          <button class="btn" id="saveScoreBtn" type="button">Save</button>
+        </div>
+        <p class="modal__saved" id="savedMsg" hidden>Saved to the leaderboard! ✔</p>
+      </div>
+      <div class="modal__actions">
+        <button class="btn" id="againBtn" type="button">New school</button>
+        <a class="btn btn--ghost" href="index.html">Back to hub</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jump scare overlay -->
+  <div class="jumpscare" id="jumpscare" aria-hidden="true"><canvas id="jumpscareCanvas"></canvas></div>
+
+  <script src="assets/school.js"></script>
+</body>
+</html>
