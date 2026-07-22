@@ -1,7 +1,8 @@
 # 🎮 Game Challenge Hub
 
 A responsive, dependency-free collection of browser mini-game challenges,
-currently featuring **Tower of Hanoi** and **Lights Out**.
+currently featuring **Tower of Hanoi**, **Lights Out**, and **Sewer Escape**
+(a first-person 3D maze).
 
 **▶ Live site:** https://skillscampmbz2026.github.io/game-challenge-hub/
 
@@ -43,18 +44,44 @@ Features:
 - **Local leaderboard** (`localStorage`) — saves player name, difficulty, moves,
   and time; ranked by fewest moves then fastest time.
 
+## Sewer Escape (first-person 3D maze)
+
+Navigate a dark sewer maze in first person, **find all 3 keys**, then reach the
+**exit gate** to escape — while a **giant blood-soaked rat** hunts you down.
+
+Features:
+
+- **First-person 3D** rendered with a from-scratch **raycasting engine** on a
+  2D canvas (no WebGL, no libraries) — textured sewer walls, distance fog,
+  murky water floor, billboarded sprites with wall occlusion.
+- **Randomized but always-solvable** mazes via recursive-backtracker generation
+  (a perfect maze is fully connected, so every key and the exit are reachable).
+- **3 keys** to collect; the exit gate stays **locked (red)** until you have all
+  three, then opens **(green)**.
+- **A giant bloody rat** that hunts you along the **BFS shortest path** to your
+  position; the screen reddens as it closes in. Get caught and it's game over.
+- **Difficulty** (Easy/Medium/Hard) scales maze size and rat speed.
+- **Move counter**, live **timer**, key counter, and a **minimap**.
+- Controls: **WASD / arrow keys**, mouse look (pointer lock), and an on-screen
+  **touch pad** for mobile.
+- **Local leaderboard** (`localStorage`) — saves player name, difficulty, moves,
+  and time; ranked by fastest escape.
+
 ## Project structure
 
 ```
 index.html        # Game Challenge Hub menu
 hanoi.html        # Tower of Hanoi game
 lightsout.html    # Lights Out game
+maze.html         # Sewer Escape (3D maze) game
 assets/
   style.css       # shared base + hub styles
   hanoi.css       # Tower of Hanoi styles
   hanoi.js        # Tower of Hanoi logic (no dependencies)
   lightsout.css   # Lights Out styles
   lightsout.js    # Lights Out logic + GF(2) solver (no dependencies)
+  maze.css        # Sewer Escape styles
+  maze.js         # Sewer Escape raycasting engine + game logic (no dependencies)
 ```
 
 ## Running locally
