@@ -54,16 +54,23 @@ Features:
 - **First-person 3D** rendered with a from-scratch **raycasting engine** on a
   2D canvas (no WebGL, no libraries) — textured sewer walls, distance fog,
   murky water floor, billboarded sprites with wall occlusion.
-- **Randomized but always-solvable** mazes via recursive-backtracker generation
-  (a perfect maze is fully connected, so every key and the exit are reachable).
+- **A 3D rat**: the monster is a real perspective-projected, depth-shaded model
+  (body, head, ears, snout, glowing red eyes, animated legs, curling tail, and
+  blood) that turns to face its movement and is correctly occluded by walls.
+- **Rooms**: open rooms are carved into the maze (kept fully connected, so the
+  maze stays solvable).
+- **Lockers to hide in**: stand next to a locker and press **E** to climb in —
+  the rat loses your scent and wanders off. Press **E** again to come out.
+- **Randomized but always-solvable** mazes via recursive-backtracker generation;
+  locker placement is verified so every key and the exit stay reachable.
 - **3 keys** to collect; the exit gate stays **locked (red)** until you have all
   three, then opens **(green)**.
-- **A giant bloody rat** that hunts you along the **BFS shortest path** to your
-  position; the screen reddens as it closes in. Get caught and it's game over.
-- **Difficulty** (Easy/Medium/Hard) scales maze size and rat speed.
+- **A giant bloody rat** that hunts you along the **BFS shortest path**; the
+  screen reddens as it closes in. Get caught and it's game over.
+- **Difficulty** (Easy/Medium/Hard) scales maze size, room/locker count, and rat speed.
 - **Move counter**, live **timer**, key counter, and a **minimap**.
-- Controls: **WASD / arrow keys**, mouse look (pointer lock), and an on-screen
-  **touch pad** for mobile.
+- Controls: **WASD / arrow keys**, mouse look (pointer lock), **E** to hide, and
+  an on-screen **touch pad** for mobile.
 - **Local leaderboard** (`localStorage`) — saves player name, difficulty, moves,
   and time; ranked by fastest escape.
 

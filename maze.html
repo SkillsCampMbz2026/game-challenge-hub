@@ -22,11 +22,12 @@
     <section class="instructions" id="instructions" aria-label="How to play">
       <h2>How to play</h2>
       <ul>
-        <li><strong>Goal:</strong> find all <em>3 keys</em> hidden in the sewer maze, then reach the <em>exit gate</em> to escape.</li>
-        <li><strong>Move:</strong> <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrow keys. <kbd>←</kbd><kbd>→</kbd> turn, <kbd>A</kbd>/<kbd>D</kbd> strafe. Click the view to look with the mouse.</li>
+        <li><strong>Goal:</strong> find all <em>3 keys</em> hidden in the sewer maze and its rooms, then reach the <em>exit gate</em> to escape.</li>
+        <li><strong>Move:</strong> <kbd>W</kbd><kbd>S</kbd> forward/back, <kbd>←</kbd><kbd>→</kbd> turn, <kbd>A</kbd>/<kbd>D</kbd> strafe. Click the view to look with the mouse.</li>
         <li><strong>Danger:</strong> a <em>giant blood-soaked rat</em> stalks you and takes the shortest path to your position. Don't get cornered — the screen reddens as it closes in.</li>
+        <li><strong>Hide:</strong> stand next to a <em>locker</em> and press <kbd>E</kbd> to climb in. The rat loses your scent and wanders off. Press <kbd>E</kbd> again to come out.</li>
         <li><strong>Locked gate:</strong> the exit stays locked (red) until all 3 keys are found, then turns green.</li>
-        <li>On touch devices, use the on-screen control pad.</li>
+        <li>On touch devices, use the on-screen control pad and the <kbd>E</kbd> button.</li>
       </ul>
     </section>
 
@@ -55,10 +56,12 @@
     <!-- 3D viewport -->
     <section class="viewport" id="viewport" aria-label="3D maze view">
       <canvas id="view"></canvas>
+      <div class="locker-overlay" id="lockerOverlay" aria-hidden="true"></div>
       <div class="vignette" id="vignette" aria-hidden="true"></div>
       <div class="crosshair" aria-hidden="true"></div>
       <div class="message" id="message" role="status"></div>
-      <div class="lock-hint" id="lockHint">Click to look around · WASD / arrows to move</div>
+      <div class="interact-hint" id="interactHint" role="status"></div>
+      <div class="lock-hint" id="lockHint">Click to look around · WASD / arrows to move · E to hide</div>
       <canvas class="minimap" id="minimap" width="150" height="150" aria-label="Minimap"></canvas>
 
       <!-- Touch control pad -->
@@ -72,6 +75,9 @@
           <button class="tbtn" id="btnLeft" type="button">↺</button>
           <button class="tbtn" id="btnBack" type="button">▼</button>
           <button class="tbtn" id="btnRight" type="button">↻</button>
+        </div>
+        <div class="touchpad__row">
+          <button class="tbtn tbtn--wide" id="btnHide" type="button">E · Hide</button>
         </div>
       </div>
     </section>
