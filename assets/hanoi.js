@@ -411,7 +411,7 @@
     startTimerIfNeeded();
 
     var i = 0;
-    var speed = Math.max(120, 650 / state.numDisks);
+    var speed = Math.max(320, 1400 / state.numDisks);
     var iv = setInterval(function () {
       if (i >= moves.length || !state.solving) {
         clearInterval(iv);
