@@ -3,7 +3,7 @@
 A responsive, dependency-free collection of browser mini-game challenges. The
 first challenge is a full-featured **Tower of Hanoi** puzzle.
 
-**▶ Live site:** _(GitHub Pages URL appears here once published)_
+**▶ Live site:** https://skillscampmbz2026.github.io/game-challenge-hub/
 
 ## Tower of Hanoi
 
