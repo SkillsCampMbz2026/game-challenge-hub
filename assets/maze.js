@@ -20,9 +20,10 @@
   var NAME_KEY = "maze.lastName";
 
   var DIFFS = {
-    easy:   { label: "Easy",   cells: 6,  monsterSpeed: 1.15, viewDist: 8,  catch: 0.50, rooms: 2, lockers: 2 },
-    medium: { label: "Medium", cells: 8,  monsterSpeed: 1.45, viewDist: 9,  catch: 0.48, rooms: 3, lockers: 3 },
-    hard:   { label: "Hard",   cells: 11, monsterSpeed: 1.75, viewDist: 10, catch: 0.46, rooms: 4, lockers: 4 }
+    // `catch` = rat hitbox radius (tiles). Kept small so you can juke past it.
+    easy:   { label: "Easy",   cells: 6,  monsterSpeed: 1.15, viewDist: 8,  catch: 0.34, rooms: 4, lockers: 2 },
+    medium: { label: "Medium", cells: 8,  monsterSpeed: 1.45, viewDist: 9,  catch: 0.32, rooms: 6, lockers: 3 },
+    hard:   { label: "Hard",   cells: 11, monsterSpeed: 1.75, viewDist: 10, catch: 0.30, rooms: 9, lockers: 4 }
   };
   var PLAYER_SPEED = 2.7;
   var TURN_SPEED = 2.7;
